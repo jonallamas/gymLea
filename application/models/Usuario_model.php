@@ -29,6 +29,19 @@ class Usuario_model extends CI_Model {
         return $query->row();
     }
 
+    public function obtener_x_dni($dni)
+    {
+        $this->db->select('gimnasio_usuarios.id as id,
+            CONCAT(gimnasio_usuarios.apellido, " ", gimnasio_usuarios.nombre) as nombre_completo,
+            gimnasio_usuarios.dni as dni,
+            gimnasio_usuarios.estado');
+        $this->db->from('gimnasio_usuarios');
+        $this->db->where('gimnasio_usuarios.dni', $dni);
+
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     public function obtener_ultimo_identificador()
     {
         $this->db->select('gimnasio_usuarios.id');

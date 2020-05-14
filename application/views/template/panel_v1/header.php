@@ -57,7 +57,7 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li class=""><a href="#" class="">Registrar horario</a></li>
+					<li class=""><a href="#" class="" data-toggle="modal" data-target="#registroAsistencia">Registrar horario</a></li>
 					<li class="<?php if($seccion_menu == 'gimnasio_usuarios'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>usuarios">Usuarios</a></li>
 					<li class="<?php if($seccion_menu == 'gimnasio_membresias'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>membresias">Membresías</a></li>
 					

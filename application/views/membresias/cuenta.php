@@ -55,8 +55,8 @@
 	      </div>
 	      <div class="modal-footer">
 	      	<input type="hidden" name="f_membresia_id_pagar" id="f_membresia_id_pagar" value="">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	        <button type="submit" class="btn btn-primary">Confirmar pago</button>
+	        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancelar</button>
+	        <button type="submit" class="btn btn-primary btn-sm">Confirmar pago</button>
 	      </div>
 	    </div>
 	  </div>
@@ -72,8 +72,8 @@
 	      </div>
 	      <div class="modal-footer">
 	      	<input type="hidden" name="f_membresia_id_cancelar" id="f_membresia_id_cancelar" value="">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	        <button type="submit" class="btn btn-danger">Confirmar cancelación</button>
+	        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancelar</button>
+	        <button type="submit" class="btn btn-danger btn-sm">Confirmar cancelación</button>
 	      </div>
 	    </div>
 	  </div>

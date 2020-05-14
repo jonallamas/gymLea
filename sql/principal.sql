@@ -65,9 +65,20 @@ CREATE TABLE IF NOT EXISTS `gimnasio_usuarios_membresia_historial` (
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
+ALTER TABLE `gimnasio_usuarios` ADD `dni` VARCHAR(16) DEFAULT NULL AFTER `id`;
 
+CREATE TABLE IF NOT EXISTS `gimnasio_usuarios_asistencia` (
+  `id`              INT NOT NULL AUTO_INCREMENT,
 
+  `usuario_cliente_id`   INT NOT NULL,
+  `fecha`    DATE DEFAULT NULL,
+  `hora`    TIME DEFAULT NULL,
 
+  `estado`          INT DEFAULT NULL,
+  `creado`          DATETIME DEFAULT NULL,
+  `actualizado`     DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 
 -- Ejemplo de prueba
 

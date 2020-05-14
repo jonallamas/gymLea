@@ -33,6 +33,30 @@ class Usuarios extends CI_Controller {
 		$this->load->view('template/panel_v1/footer');
 	}
 
+	public function obtener_usuario_x_dni()
+	{
+		$dni = $this->input->post('f_dni');
+		$usuario = $this->usuario_model->obtener_x_dni($dni);
+
+		if($usuario){
+			$estado_membresia = $this->membresia_model->obtener_estado_membresia_periodo($usuario->id, date('Y-m'));
+			
+			$data = array(
+				'error' => 0,
+				'error_texto' => null,
+				'usuario' => $usuario,
+				'membresia' => $estado_membresia
+			);
+		}else{
+			$data = array(
+				'error' => 1,
+				'error_texto' => 'No se ha encontrado usuario con ese DNI',
+			);
+		}
+
+		echo json_encode($data);
+	}
+
 	public function guardar()
 	{
 		if(!$this->input->post()){
@@ -125,7 +149,6 @@ class Usuarios extends CI_Controller {
 				// Alerta error
 			}
 		}
-
 	}
 
 	public function lista()
