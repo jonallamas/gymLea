@@ -15,8 +15,12 @@
 
 <br>
 
+<pre>
+	<?php print_r($usuario); ?>
+</pre>
+
 <form action="<?php echo base_url(); ?>usuarios/guardar" method="post">
-<div class="row" id="moduloCarga" style="display: none;">
+<div class="row">
 	<div class="col-sm-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -28,13 +32,13 @@
 						<label for="f_usuario_tipo_id">Tipo de usuario</label>
 						<select name="f_usuario_tipo_id" id="f_usuario_tipo_id" class="form-control">
 							<option value="">Seleccione una opción</option>
-							<option value="1">Administrador</option>
-							<option value="2" selected>Cliente</option>
+							<option value="1" <?php if($usuario->tipo == 1){ echo 'selected'; } ?>>Administrador</option>
+							<option value="2" <?php if($usuario->tipo == 2){ echo 'selected'; } ?>>Cliente</option>
 						</select>
 					</div>
 					<div class="col-sm-2">
 						<label for="f_usuario_identificacion">Identificador</label>
-						<input class="form-control" name="f_usuario_identificacion" id="f_usuario_identificacion" value="M<?php echo $identificador; ?>" disabled>
+						<input class="form-control" name="f_usuario_identificacion" id="f_usuario_identificacion" value="<?php echo $usuario->identificacion; ?>" disabled>
 					</div>
 				</div>
 				<div class="form-group">
@@ -45,20 +49,20 @@
 				<div class="form-group">
 					<div class="col-sm-3">
 						<label for="f_usuario_apellido">Apellido/s</label>
-						<input type="text" name="f_usuario_apellido" id="f_usuario_apellido" class="form-control">
+						<input type="text" name="f_usuario_apellido" id="f_usuario_apellido" class="form-control" value="<?php echo $usuario->apellido; ?>">
 					</div>
 					<div class="col-sm-3">
 						<label for="f_usuario_nombre">Nombre</label>
-						<input type="text" name="f_usuario_nombre" id="f_usuario_nombre" class="form-control">
+						<input type="text" name="f_usuario_nombre" id="f_usuario_nombre" class="form-control" value="<?php echo $usuario->nombre; ?>">
 					</div>
 					<div class="col-sm-3">
 						<label for="f_usuario_dni">Núm de DNI</label>
-						<input type="text" name="f_usuario_dni" id="f_usuario_dni" class="form-control">
+						<input type="text" name="f_usuario_dni" id="f_usuario_dni" class="form-control" value="<?php echo $usuario->dni; ?>">
 					</div>
 					<div class="col-sm-3">
 						<label for="fecha_nacimiento">Fecha nacimiento</label>
 						<div class="input-group date" data-provide="datepicker" id="fecha_nacimiento">
-						    <input type="text" class="form-control" name="f_usuario_fecha_nacimiento">
+						    <input type="text" class="form-control" name="f_usuario_fecha_nacimiento" value="<?php echo date("d-m-Y", strtotime($usuario->fecha_nacimiento)) ?>">
 						    <div class="input-group-addon">
 						        <i class="far fa-calendar-alt"></i>
 						    </div>
@@ -73,36 +77,11 @@
 				<div class="form-group">
 					<div class="col-sm-3">
 						<label for="f_usuario_telefono">Teléfono</label>
-						<input type="text" name="f_usuario_telefono" id="f_usuario_telefono" class="form-control">
+						<input type="text" name="f_usuario_telefono" id="f_usuario_telefono" class="form-control" value="<?php echo $usuario->telefono; ?>">
 					</div>
 					<div class="col-sm-9">
 						<label for="f_usuario_direccion">Dirección</label>
-						<input type="text" name="f_usuario_direccion" id="f_usuario_direccion" class="form-control">
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-12">
-						<legend style="margin-top: 20px; margin-bottom: 10px; font-size: 18px;">Información de membresía</legend>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-3">
-						<label for="f_membresia_plan_id">Plan</label>
-						<select class="form-control" name="f_membresia_plan_id" id="f_membresia_plan_id">
-							<option value="">Seleccione una opción</option>
-							<?php foreach ($planes as $plan) { ?>
-								<option value="<?php echo $plan->id; ?>"><?php echo $plan->nombre; ?></option>
-							<?php } ?>
-						</select>
-					</div>
-					<div class="col-sm-3">
-						<label for="valido_desde">Fecha ingreso</label>
-						<div class="input-group date" data-provide="datepicker" id="valido_desde">
-						    <input type="text" class="form-control" name="f_membresia_valido_desde">
-						    <div class="input-group-addon">
-						        <i class="far fa-calendar-alt"></i>
-						    </div>
-						</div>
+						<input type="text" name="f_usuario_direccion" id="f_usuario_direccion" class="form-control" value="<?php echo $usuario->direccion; ?>">
 					</div>
 				</div>
 				<div id="contInfoUsuarioAdmin" style="display: none;">
@@ -114,7 +93,7 @@
 					<div class="form-group">
 						<div class="col-sm-6">
 							<label for="f_usuario_correo">Correo electrónico</label>
-							<input class="form-control" name="f_usuario_correo" id="f_usuario_correo">
+							<input class="form-control" name="f_usuario_correo" id="f_usuario_correo" value="<?php echo $usuario->log_correo; ?>">
 						</div>
 						<div class="col-sm-3">
 							<label for="f_usuario_pass">Contraseña</label>
@@ -129,6 +108,7 @@
 				</div>
 			</div>
 			<div class="panel-footer text-right">
+				<input type="hidden" id="f_usuario_id" name="f_usuario_id" value="<?php echo $usuario->id; ?>">
 				<button type="button" class="btn btn-sm btn-default" onclick="mostrar_ocultar_modulo()">Cancelar</button>
 				<button type="submit" class="btn btn-sm btn-primary" id="btn_guardar_usuario">Guardar</button>
 			</div>
@@ -136,31 +116,5 @@
 	</div>
 </div>
 </form>
-
-<div class="row" id="moduloInformacion">
-	<div class="col-sm-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Lista usuarios</h3>
-			</div>
-			<table class="table table-striped" id="tabla_usuarios" width="100%">
-				<thead>
-					<tr>
-						<th width="1%"></th>
-						<th width="1%"></th>
-						<th width="90%">Nombre completo</th>
-						<th width="0%"></th>
-						<th width="0%"></th>
-						<th width="0%"></th>
-						<th width="1%">Teléfono</th>
-						<th width="1%">Tipo</th>
-						<th width="1%"></th>
-					</tr>
-				</thead>
-			</table>
-		</div>
-
-	</div>
-</div>
 
 <?php echo $js_usuarios; ?>

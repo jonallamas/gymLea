@@ -37,6 +37,14 @@
     	.menuInfoModulo .menuBotones{
     		padding-top: 20px;
     	}
+
+		/*pointer-events: none;
+		position: fixed;
+		padding: 0.3rem;
+		background-color: red;
+		border-radius: 50%;
+		mix-blend-mode: difference;
+		transition: transform 0.3s ease;*/
     </style>
 </head>
 <body>
@@ -59,7 +67,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li class=""><a href="#" class="" data-toggle="modal" data-target="#registroAsistencia">Registrar horario</a></li>
 					<li class="<?php if($seccion_menu == 'gimnasio_usuarios'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>usuarios">Usuarios</a></li>
-					<li class="<?php if($seccion_menu == 'gimnasio_membresias'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>membresias">Membresías</a></li>
+					<!-- <li class="<?php if($seccion_menu == 'gimnasio_membresias'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>membresias">Membresías</a></li> -->
 					
 					<!-- Separador momentaneo -->
 					<li><a></a></li>

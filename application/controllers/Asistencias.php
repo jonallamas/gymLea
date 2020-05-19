@@ -23,16 +23,26 @@ class Asistencias extends CI_Controller {
 
 		$usuario_id = $this->input->post('f_usuario_id');
 		$fecha = date('Y-m-d', strtotime($this->input->post('f_fecha')));
-		$hora_ingreso = $this->input->post('f_hora_entrada');
+		$hora_ingreso = date('G:i:s', strtotime($this->input->post('f_hora_entrada').':00:00'));
 
 		$asistio_hoy = $this->asistencia_model->obtener_asistencia_diaria($usuario_id, $fecha);
+
+		// $total_disponibles = $this->asistencia_model->obtener_disponibles($fecha, $hora_ingreso);
+
+		// echo 'usuario: '.$usuario_id.'<br>';
+		// echo 'fecha: '.$fecha.'<br>';
+		// echo 'hora: '.$hora_ingreso.'<br>';
+		// echo '<pre>';
+		// print_r($total_disponibles);
+		// exit();
+
 		if($asistio_hoy){
 			$data = array(
 				'error' => 1,
-				'error_texto' => 'Ya ha registrado una asistencia hoy'
+				'error_texto' => 'Solo es permitido una asistencia diaria por usuario'
 			);
 		}else{
-			$total_disponibles = $this->asistencia_model->obtener_disponibles($usuario_id, $fecha, $hora_ingreso);
+			$total_disponibles = $this->asistencia_model->obtener_disponibles($fecha, $hora_ingreso);
 			if($total_disponibles->total >= 10){
 				$data = array(
 					'error' => 1,
@@ -59,13 +69,13 @@ class Asistencias extends CI_Controller {
 
 		$usuario_id = $this->input->post('f_usuario_id');
 		$fecha = date('Y-m-d', strtotime($this->input->post('f_fecha')));
-		$hora_ingreso = $this->input->post('f_hora_entrada');
+		$hora_ingreso = date('G:i:s', strtotime($this->input->post('f_hora_entrada').':00:00'));
 
 		$datos_asistencia = array(
 			'usuario_cliente_id'=> $usuario_id,
 			'fecha' 			=> $fecha,
 			'hora' 				=> $hora_ingreso,
-			'estado' 			=> 1,
+			'estado' 			=> 2,
 			'creado' 			=> date('Y-m-d H:i:s'),
 			'actualizado' 		=> date('Y-m-d H:i:s')
 		);
@@ -74,15 +84,13 @@ class Asistencias extends CI_Controller {
 		{
 			$data = array(
 				'error' => 0,
-				'error_texto' => null,
-				'fecha' => $fecha,
-				'hora' => $hora_ingreso
+				'respuesta' => 'Se registró la asistencia para el día '.$this->input->post('f_fecha').' a las '.date('G:i', strtotime($this->input->post('f_hora_entrada').':00')).'hs',
 			);
 		}
 		else{
 			$data = array(
 				'error' => 1,
-				'error_texto' => 'No se pudo registrar la asistencia'
+				'error_texto' => 'No fue posible registrar la asistencia'
 			);
 		}
 

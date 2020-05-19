@@ -21,12 +21,13 @@ class Membresias extends CI_Controller {
 
 	public function index()
 	{
-		$this->data_header['total_clientes']         	= $this->usuario_model->obtener_total_clientes();
-		$this->data_header['total_clientes_activos'] 	= count($this->membresia_model->obtener_total_clientes_activos());
+		redirect(base_url().'panel');
+		// $this->data_header['total_clientes']         	= $this->usuario_model->obtener_total_clientes();
+		// $this->data_header['total_clientes_activos'] 	= count($this->membresia_model->obtener_total_clientes_activos());
 
-		$this->load->view('template/panel_v1/header', $this->data_header);
-		$this->load->view('membresias/membresias');
-		$this->load->view('template/panel_v1/footer');
+		// $this->load->view('template/panel_v1/header', $this->data_header);
+		// $this->load->view('membresias/membresias');
+		// $this->load->view('template/panel_v1/footer');
 	}
 
 	public function cuenta()
@@ -58,7 +59,6 @@ class Membresias extends CI_Controller {
 		$membresia_renovada = array(
 			'pago'	 				=> 1,
 			'estado' 				=> 1,
-			'actualizado_usuario_id'=> $this->session->userdata('usuario_id'),
 			'actualizado' 			=> date('Y-m-d H:i:s')
 		);
 
@@ -96,7 +96,6 @@ class Membresias extends CI_Controller {
 		$membresia_renovada = array(
 			'pago'	 				=> 0,
 			'estado' 				=> 0,
-			'actualizado_usuario_id'=> $this->session->userdata('usuario_id'),
 			'actualizado' 			=> date('Y-m-d H:i:s')
 		);
 

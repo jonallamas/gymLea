@@ -22,7 +22,9 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function index()
-	{
+	{	
+		$this->data_header['js_usuarios'] = $this->load->view('usuarios/_js/js_usuarios', $this->data_header, true);
+
 		$this->data_header['planes'] = $this->plan_model->obtener_todos();
 
 		$ultima_identificacion = $this->usuario_model->obtener_ultimo_identificador();
@@ -31,6 +33,25 @@ class Usuarios extends CI_Controller {
 		$this->load->view('template/panel_v1/header', $this->data_header);
 		$this->load->view('usuarios/usuarios');
 		$this->load->view('template/panel_v1/footer');
+	}
+
+	public function editar()
+	{	
+		$usuario_id = $this->uri->segment(3);
+		$usuario = $this->usuario_model->obtener($usuario_id);
+
+		if($usuario){
+			$this->data_header['usuario'] = $usuario;
+			$this->data_header['js_usuarios'] = $this->load->view('usuarios/_js/js_usuarios', $this->data_header, true);
+
+			$this->data_header['planes'] = $this->plan_model->obtener_todos();
+
+			$this->load->view('template/panel_v1/header', $this->data_header);
+			$this->load->view('usuarios/usuario');
+			$this->load->view('template/panel_v1/footer');
+		}else{
+			redirect(base_url().'panel');
+		}
 	}
 
 	public function obtener_usuario_x_dni()
@@ -66,6 +87,14 @@ class Usuarios extends CI_Controller {
 
 		$usuario_id = $this->input->post('f_usuario_id');
 		$tipo_id = $this->input->post('f_usuario_tipo_id');
+
+		if($tipo_id == 1){
+			$correo = $this->input->post('f_usuario_correo');
+			$password = md5($this->input->post('f_usuario_pass'));
+		}else{
+			$correo = null;
+			$password = null;
+		}
 		
 		if($usuario_id)
 		{
@@ -100,14 +129,14 @@ class Usuarios extends CI_Controller {
 				'apellido'		=> $this->input->post('f_usuario_apellido'),
 
 				'nombre'		=> $this->input->post('f_usuario_nombre'),
-				'apodo'			=> $this->input->post('f_usuario_apodo'),
+				'apodo'			=> null,
 
 				'telefono'		=> $this->input->post('f_usuario_telefono'),
 				'direccion'		=> $this->input->post('f_usuario_direccion'),
 
-				'correo'		=> $this->input->post('f_usuario_correo'),
-				'log_correo'	=> $this->input->post('f_usuario_correo'),
-				'log_pass'		=> md5($this->input->post('f_usuario_pass')),
+				'correo'		=> $correo,
+				'log_correo'	=> $correo,
+				'log_pass'		=> $password,
 				
 				'validado'		=> 1,
 				'tipo'			=> $tipo_id,
@@ -157,6 +186,9 @@ class Usuarios extends CI_Controller {
 		$this->datatables->select('gimnasio_usuarios.id as id,
 			gimnasio_usuarios.apellido as apellido,
 			gimnasio_usuarios.nombre as nombre,
+			gimnasio_usuarios.dni as dni,
+			gimnasio_usuarios.identificacion as identificacion,
+
 			gimnasio_usuarios.telefono as telefono,
 			gimnasio_usuarios.correo as correo,
 			gimnasio_usuarios.validado as validado,
