@@ -17,6 +17,23 @@ class Panel extends CI_Controller {
 	public function index()
 	{
 		if($this->session->userdata('conectado')){
+
+			$this->load->model('configuracion_model');
+			$this->data_header['configuracion'] = $this->configuracion_model->obtener();
+
+			if(!$this->data_header['configuracion']){
+				$datos_configuracion = array(
+					'cant_personas_x_hora'	=> 10,
+					'hora_apertura'			=> 9,
+					'hora_cierre'			=> 21,
+					
+					'actualizado_usuario_id' => $this->session->userdata('usuario_id'),
+					'actualizado' 			 => date('Y-m-d H:i:s')
+				);
+
+				$this->configuracion_model->alta($datos_configuracion);
+			}
+
 			$this->load->view('template/panel_v1/header', $this->data_header);
 			$this->load->view('principal');
 			$this->load->view('template/panel_v1/footer');

@@ -68,6 +68,7 @@
 					<li class=""><a href="#" data-toggle="modal" data-target="#registroHorario">Registrar horario</a></li>
 					<li class=""><a href="#" data-toggle="modal" data-target="#registroAsistencia">Registrar asistencia</a></li>
 					<li class="<?php if($seccion_menu == 'gimnasio_usuarios'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>usuarios">Usuarios</a></li>
+					<li class="<?php if($seccion_menu == 'gimnasio_configuracion'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>configuraciones">Configuraciones</a></li>
 					<!-- <li class="<?php if($seccion_menu == 'gimnasio_membresias'){ echo 'active'; } ?>"><a href="<?php echo base_url(); ?>membresias">Membresías</a></li> -->
 					
 					<!-- Separador momentaneo -->

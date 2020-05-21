@@ -93,6 +93,19 @@ CREATE TABLE IF NOT EXISTS `gimnasio_usuarios_asistencia_historial` (
   `actualizado`     DATETIME DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `gimnasio_configuraciones` (
+  `id`              INT NOT NULL AUTO_INCREMENT,
+
+  `cant_personas_x_hora` INT NOT NULL,
+
+  `hora_apertura` INT NOT NULL,
+  `hora_cierre` INT NOT NULL,
+  
+  `actualizado_usuario_id` INT DEFAULT NULL,
+  `actualizado`     DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 -- Ejemplo de prueba
 
 -- CREATE TABLE IF NOT EXISTS `tabla_nombre` (
