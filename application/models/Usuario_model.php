@@ -12,7 +12,7 @@ class Usuario_model extends CI_Model {
         return $this->db->insert('gimnasio_usuarios', $data);
     }
 
-    public function modifica($data, $codigo)
+    public function modifica($data, $id)
     {
         $this->db->where('gimnasio_usuarios.id', $id);
 
@@ -21,7 +21,8 @@ class Usuario_model extends CI_Model {
 
     public function obtener($id)
     {
-        $this->db->select('gimnasio_usuarios.*');
+        $this->db->select('gimnasio_usuarios.*,
+            TIMESTAMPDIFF(YEAR,gimnasio_usuarios.fecha_nacimiento,CURDATE()) as edad');
         $this->db->from('gimnasio_usuarios');
         $this->db->where('gimnasio_usuarios.id', $id);
 
@@ -32,8 +33,10 @@ class Usuario_model extends CI_Model {
     public function obtener_x_dni($dni)
     {
         $this->db->select('gimnasio_usuarios.id as id,
+            gimnasio_usuarios.identificacion as identificacion,
             CONCAT(gimnasio_usuarios.apellido, " ", gimnasio_usuarios.nombre) as nombre_completo,
             gimnasio_usuarios.dni as dni,
+            TIMESTAMPDIFF(YEAR,gimnasio_usuarios.fecha_nacimiento,CURDATE()) as edad,
             gimnasio_usuarios.estado');
         $this->db->from('gimnasio_usuarios');
         $this->db->where('gimnasio_usuarios.dni', $dni);

@@ -90,8 +90,8 @@
 				{ data: 'id', 'visible':true, 'searchable':false, 'orderable': false, 'render': function (val, type, row)
           			{
             			var opciones = '<div class="mismalinea">';
-						opciones += '<a href="membresias/cuenta/'+row.id+'" class="btn btn-sm btn-default">Cuotas</a> ';
-						opciones += '<a href="usuarios/editar/'+row.id+'" class="btn btn-sm btn-success"><i class="fas fa-pencil-alt"></i></a> ';
+						opciones += '<a href="'+base_url+'membresias/cuenta/'+row.id+'" class="btn btn-sm btn-default">Cuotas</a> ';
+						opciones += '<a href="'+base_url+'usuarios/editar/'+row.id+'" class="btn btn-sm btn-success" title="Editar usuario"><i class="fas fa-pencil-alt"></i></a> ';
             			opciones += '</div>';
 
 			            return opciones;
@@ -102,7 +102,7 @@
 				[ 0, 'desc' ]
 			],
 			ajax: {
-				url: 'usuarios/lista',
+				url: base_url+'usuarios/lista',
 				type: 'POST'
 			}
 		});

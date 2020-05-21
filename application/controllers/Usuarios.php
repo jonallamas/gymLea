@@ -59,15 +59,40 @@ class Usuarios extends CI_Controller {
 		$dni = $this->input->post('f_dni');
 		$usuario = $this->usuario_model->obtener_x_dni($dni);
 
+		// Tipo:
+		// 1- Consulta de si posee una membresía activa
+		// 2- Consulta de si posee una asistencia activa
+		$tipo = $this->input->post('f_tipo');
+
 		if($usuario){
-			$estado_membresia = $this->membresia_model->obtener_estado_membresia_periodo($usuario->id, date('Y-m'));
+			$membresias = $this->membresia_model->obtener_membresias_periodo($usuario->id, date('Y'));
+
+			$estado_membresia = null;
+
+			foreach ($membresias as $membresia) {
+				if(date('Y-m-d') <= $membresia->fecha_vencimiento && date('Y-m-d') >= $membresia->fecha_inicio){
+					$estado_membresia = $membresia->estado;
+				}
+			}
 			
-			$data = array(
-				'error' => 0,
-				'error_texto' => null,
-				'usuario' => $usuario,
-				'membresia' => $estado_membresia
-			);
+			if($tipo == 2){
+				$this->load->model('asistencia_model');
+				$asistencia_actual = $this->asistencia_model->obtener_asistencia_diaria($usuario->id, date('Y-m-d'));
+				
+				$data = array(
+					'error' => 0,
+					'error_texto' => null,
+					'usuario' => $usuario,
+					'asistencia' => $asistencia_actual
+				);
+			}else{
+				$data = array(
+					'error' => 0,
+					'error_texto' => null,
+					'usuario' => $usuario,
+					'membresia_estado' => $estado_membresia
+				);
+			}
 		}else{
 			$data = array(
 				'error' => 1,
@@ -95,55 +120,56 @@ class Usuarios extends CI_Controller {
 			$correo = null;
 			$password = null;
 		}
-		
-		if($usuario_id)
-		{
-			// $datos_usuario = array(
-			// 	'apellido'		=> $this->input->post('f_usuario_apellido'),
-			// 	'nombre'		=> $this->input->post('f_usuario_nombre'),
-			// 	'apodo'			=> $this->input->post('f_usuario_apodo'),
-			// 	'telefono'		=> $this->input->post('f_usuario_telefono'),
-			// 	'correo'		=> $this->input->post('f_usuario_correo'),
 
-			// 	'log_correo'	=> $this->input->post('f_usuario_correo'),
-			// 	'log_pass'		=> md5($this->input->post('f_usuario_pass')),
+		if($usuario_id){
+			$datos_usuario = array(
+				'apellido'			=> $this->input->post('f_usuario_apellido'),
+				'nombre'			=> $this->input->post('f_usuario_nombre'),
+				'dni'				=> $this->input->post('f_usuario_dni'),
+				'fecha_nacimiento'	=> date('Y-m-d', strtotime($this->input->post('f_usuario_fecha_nacimiento'))),
 
-			// 	'tipo'			=> $tipo_id,
-				
-			// 	'actualizado' 	=> date('Y-m-d H:i:s')
-			// );
+				'telefono'			=> $this->input->post('f_usuario_telefono'),
+				'direccion'			=> $this->input->post('f_usuario_direccion'),
 
-			// if($this->usuario_model->modifica($datos_usuario, $usuario_id)){
-			// 	// Alerta exitosa
-			// }
-			// else{
-			// 	// Alerta error
-			// }
+				'correo'			=> $correo,
+				'log_correo'		=> $correo,
+				'log_pass'			=> $password,
+			
+				'actualizado' 		=> date('Y-m-d H:i:s')
+			);
+
+			if($this->usuario_model->modifica($datos_usuario, $usuario_id)){
+				redirect(base_url().'usuarios/editar/'.$usuario_id);
+				// Alerta exitosa
+			}
+			else{
+				// Alerta error
+			}
 		}else{
 			$ultima_identificacion = $this->usuario_model->obtener_ultimo_identificador();
 
 			$identificador = $ultima_identificacion->id + 1;
 
 			$datos_usuario = array(
-				'identificacion' => 'M'.$identificador,
-				'apellido'		=> $this->input->post('f_usuario_apellido'),
+				'identificacion' 	=> 'M'.$identificador,
+				'tipo'				=> $tipo_id,
 
-				'nombre'		=> $this->input->post('f_usuario_nombre'),
-				'apodo'			=> null,
+				'apellido'			=> $this->input->post('f_usuario_apellido'),
+				'nombre'			=> $this->input->post('f_usuario_nombre'),
+				'dni'				=> $this->input->post('f_usuario_dni'),
+				'fecha_nacimiento'	=> date('Y-m-d', strtotime($this->input->post('f_usuario_fecha_nacimiento'))),
 
-				'telefono'		=> $this->input->post('f_usuario_telefono'),
-				'direccion'		=> $this->input->post('f_usuario_direccion'),
+				'telefono'			=> $this->input->post('f_usuario_telefono'),
+				'direccion'			=> $this->input->post('f_usuario_direccion'),
 
-				'correo'		=> $correo,
-				'log_correo'	=> $correo,
-				'log_pass'		=> $password,
+				'correo'			=> $correo,
+				'log_correo'		=> $correo,
+				'log_pass'			=> $password,
 				
-				'validado'		=> 1,
-				'tipo'			=> $tipo_id,
-
-				'estado' 		=> 1,
-				'creado'		=> date('Y-m-d H:i:s'),
-				'actualizado' 	=> date('Y-m-d H:i:s')
+				'validado'			=> 1,
+				'estado' 			=> 1,
+				'creado'			=> date('Y-m-d H:i:s'),
+				'actualizado' 		=> date('Y-m-d H:i:s')
 			);
 
 			if($this->usuario_model->alta($datos_usuario)){ 

@@ -81,6 +81,18 @@ CREATE TABLE IF NOT EXISTS `gimnasio_usuarios_asistencia` (
 
 
 ALTER TABLE `gimnasio_usuarios` ADD `fecha_nacimiento` DATE DEFAULT NULL AFTER `dni`;
+
+CREATE TABLE IF NOT EXISTS `gimnasio_usuarios_asistencia_historial` (
+  `id`              INT NOT NULL AUTO_INCREMENT,
+
+  `asistencia_id`   INT NOT NULL,
+
+  `estado`          INT DEFAULT NULL,
+  `creado`          DATETIME DEFAULT NULL,
+  `actualizado_usuario_id` INT DEFAULT NULL,
+  `actualizado`     DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 -- Ejemplo de prueba
 
 -- CREATE TABLE IF NOT EXISTS `tabla_nombre` (

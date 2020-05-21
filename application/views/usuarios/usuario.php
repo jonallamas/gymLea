@@ -1,46 +1,26 @@
 <div class="jumbotron">
 	<div class="row menuInfoModulo">
 		<div class="col-sm-6">
-			<h2><?php echo $titulo; ?></h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore quia repudiandae, est placeat.</p>
+			<h2>Edición de usuario</h2>
+			<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore quia repudiandae, est placeat.</p> -->
 		</div>
 		<div class="col-sm-6 text-right">
 			<div class="menuBotones">
-				<a href="<?php echo base_url(); ?>planes" class="btn btn-sm btn-default">Planes</a>
-				<button type="button" class="btn btn-sm btn-primary" onclick="mostrar_ocultar_modulo('')"><i class="fas fa-plus"></i> Nuevo</button>
+				<a href="<?php echo base_url(); ?>usuarios" class="btn btn-sm btn-default"><i class="fas fa-angle-left"></i> Volver</a>
+				<!-- <button type="button" class="btn btn-sm btn-primary" onclick="mostrar_ocultar_modulo('')"><i class="fas fa-plus"></i> Nuevo</button> -->
 			</div>
 		</div>
 	</div>
 </div>
-
-<br>
-
-<pre>
-	<?php print_r($usuario); ?>
-</pre>
 
 <form action="<?php echo base_url(); ?>usuarios/guardar" method="post">
 <div class="row">
 	<div class="col-sm-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Nuevo usuario</h3>
+				<h3 class="panel-title">Editar usuario</h3>
 			</div>
 			<div class="panel-body">
-				<div class="form-group">
-					<div class="col-sm-3">
-						<label for="f_usuario_tipo_id">Tipo de usuario</label>
-						<select name="f_usuario_tipo_id" id="f_usuario_tipo_id" class="form-control">
-							<option value="">Seleccione una opción</option>
-							<option value="1" <?php if($usuario->tipo == 1){ echo 'selected'; } ?>>Administrador</option>
-							<option value="2" <?php if($usuario->tipo == 2){ echo 'selected'; } ?>>Cliente</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<label for="f_usuario_identificacion">Identificador</label>
-						<input class="form-control" name="f_usuario_identificacion" id="f_usuario_identificacion" value="<?php echo $usuario->identificacion; ?>" disabled>
-					</div>
-				</div>
 				<div class="form-group">
 					<div class="col-sm-12">
 						<legend style="margin-top: 20px; margin-bottom: 10px; font-size: 18px;">Información personal</legend>

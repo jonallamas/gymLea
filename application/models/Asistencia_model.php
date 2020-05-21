@@ -12,6 +12,18 @@ class Asistencia_model extends CI_Model {
         return $this->db->insert('gimnasio_usuarios_asistencia', $data);
     }
 
+    public function alta_historial($data)
+    {
+        return $this->db->insert('gimnasio_usuarios_asistencia_historial', $data);
+    }
+
+    public function modifica($data, $id)
+    {
+        $this->db->where('gimnasio_usuarios_asistencia.id', $id);
+
+        return $this->db->update('gimnasio_usuarios_asistencia', $data);
+    }
+
     public function obtener_disponibles($fecha, $hora_ingreso)
     {
         $this->db->select('COUNT(gimnasio_usuarios_asistencia.id) as total');
