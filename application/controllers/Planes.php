@@ -8,6 +8,7 @@ class Planes extends CI_Controller {
 
 		//Carga de los modelos
 		$this->load->model('plan_model');
+		$this->load->model('configuracion_model');
 
 		//Configurando el data_header
 		$this->data_header['titulo'] = 'Administración de planes';
@@ -16,15 +17,35 @@ class Planes extends CI_Controller {
 		if(!$this->session->userdata('conectado') || $this->session->userdata('usuario_tipo') != 1){
 			redirect(base_url());
 		}
+
+		$this->data_header['configuracion'] = $this->configuracion_model->obtener();
 	}
 
 	public function index()
 	{
 		$this->data_header['planes'] = $this->plan_model->obtener_todos();
+		$this->data_header['js_planes'] = $this->load->view('planes/_js/js_planes', $this->data_header, true);
 
 		$this->load->view('template/panel_v1/header', $this->data_header);
 		$this->load->view('planes/planes');
 		$this->load->view('template/panel_v1/footer');
+	}
+
+	public function editar()
+	{
+		$plan_id = $this->uri->segment(3);
+		$plan = $this->plan_model->obtener($plan_id);
+
+		if($plan){
+			$this->data_header['plan'] = $plan;
+
+			$this->load->view('template/panel_v1/header', $this->data_header);
+			$this->load->view('planes/editar');
+			$this->load->view('template/panel_v1/footer');
+		}else{
+			redirect(base_url().'planes');
+		}
+
 	}
 
 	public function guardar()
@@ -40,7 +61,6 @@ class Planes extends CI_Controller {
 		{
 			$datos_plan = array(
 				'nombre'		=> $this->input->post('f_plan_nombre'),
-				'periodo'		=> $this->input->post('f_plan_periodo'),
 				'precio'		=> $this->input->post('f_plan_precio'),
 				
 				'actualizado' 	=> date('Y-m-d H:i:s')

@@ -11,18 +11,22 @@ class Usuarios extends CI_Controller {
 		$this->load->model('plan_model');
 		$this->load->model('membresia_model');
 		$this->load->model('contratacion_model');
+		$this->load->model('configuracion_model');
 
 		//Configurando el data_header
 		$this->data_header['titulo'] = 'Administración de usuarios';
-		$this->data_header['seccion_menu'] = 'tienda_usuarios';
+		$this->data_header['seccion_menu'] = 'gimnasio_usuarios';
 
-		if(!$this->session->userdata('conectado') || $this->session->userdata('usuario_tipo') != 1){
-			redirect(base_url());
-		}
+		// if(!$this->session->userdata('conectado') || $this->session->userdata('usuario_tipo') != 1){
+		// 	redirect(base_url());
+		// }
+
+		$this->data_header['configuracion'] = $this->configuracion_model->obtener();
 	}
 
 	public function index()
 	{	
+		$this->data_header['modulo_editar'] = 0;
 		$this->data_header['js_usuarios'] = $this->load->view('usuarios/_js/js_usuarios', $this->data_header, true);
 
 		$this->data_header['planes'] = $this->plan_model->obtener_todos();
@@ -41,13 +45,14 @@ class Usuarios extends CI_Controller {
 		$usuario = $this->usuario_model->obtener($usuario_id);
 
 		if($usuario){
+			$this->data_header['modulo_editar'] = 1;
 			$this->data_header['usuario'] = $usuario;
 			$this->data_header['js_usuarios'] = $this->load->view('usuarios/_js/js_usuarios', $this->data_header, true);
 
 			$this->data_header['planes'] = $this->plan_model->obtener_todos();
 
 			$this->load->view('template/panel_v1/header', $this->data_header);
-			$this->load->view('usuarios/usuario');
+			$this->load->view('usuarios/editar');
 			$this->load->view('template/panel_v1/footer');
 		}else{
 			redirect(base_url().'panel');
@@ -57,6 +62,7 @@ class Usuarios extends CI_Controller {
 	public function obtener_usuario_x_dni()
 	{
 		$dni = $this->input->post('f_dni');
+		$fecha = $this->input->post('f_fecha');
 		$usuario = $this->usuario_model->obtener_x_dni($dni);
 
 		// Tipo:
@@ -77,7 +83,7 @@ class Usuarios extends CI_Controller {
 			
 			if($tipo == 2){
 				$this->load->model('asistencia_model');
-				$asistencia_actual = $this->asistencia_model->obtener_asistencia_diaria($usuario->id, date('Y-m-d'));
+				$asistencia_actual = $this->asistencia_model->obtener_asistencia_diaria($usuario->id, date('Y-m-d', strtotime($fecha)));
 				
 				$data = array(
 					'error' => 0,
@@ -96,7 +102,7 @@ class Usuarios extends CI_Controller {
 		}else{
 			$data = array(
 				'error' => 1,
-				'error_texto' => 'No se ha encontrado usuario con ese DNI',
+				'error_texto' => 'DNI no encontrado',
 			);
 		}
 
@@ -130,10 +136,6 @@ class Usuarios extends CI_Controller {
 
 				'telefono'			=> $this->input->post('f_usuario_telefono'),
 				'direccion'			=> $this->input->post('f_usuario_direccion'),
-
-				'correo'			=> $correo,
-				'log_correo'		=> $correo,
-				'log_pass'			=> $password,
 			
 				'actualizado' 		=> date('Y-m-d H:i:s')
 			);

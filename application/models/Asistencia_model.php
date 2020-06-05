@@ -43,7 +43,7 @@ class Asistencia_model extends CI_Model {
         $this->db->from('gimnasio_usuarios_asistencia');
         $this->db->where('gimnasio_usuarios_asistencia.fecha =', $fecha);
         $this->db->where('gimnasio_usuarios_asistencia.usuario_cliente_id =', $usuario_id);
-        $this->db->where('gimnasio_usuarios_asistencia.estado !=', 0);
+        // $this->db->where('gimnasio_usuarios_asistencia.estado !=', 0);
 
         $query = $this->db->get();
         return $query->row();

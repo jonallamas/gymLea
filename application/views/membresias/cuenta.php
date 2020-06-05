@@ -19,20 +19,20 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Listado de cuotas</h3>
 			</div>
-			<table class="table table-striped" id="tabla_cuotas" width="100%">
+			<table class="table table-striped display dt-responsive nowrap" id="tabla_cuotas" width="100%">
 				<thead>
 					<tr>
 						<th width="1%"></th>
-						<th width="1%"></th>
-						<th width="90%">Tipo de membresía</th>
+						<th width="1%" class="hidden-xs"></th>
+						<th width="90%" class="hidden-xs">Tipo de membresía</th>
 						<th width="1%"><span class="mismalinea">Periodo</span></th>
-						<th width="1%"><span class="mismalinea">Fecha inicio</span></th>
+						<th width="1%" class="hidden-xs"><span class="mismalinea">Fecha inicio</span></th>
 						<th width="1%">Vencimiento</th>
 						<th width="0%"></th>
-						<th width="1%"><span class="mismalinea">Estado</span></th>
-						<th width="1%">Precio</th>
+						<th width="1%" class="hidden-xs"><span class="mismalinea">Estado</span></th>
+						<th width="1%" class="hidden-xs">Precio</th>
 						<th width="1%"><span class="mismalinea">Pago</span></th>
-						<th width="1%">Acciones</th>
+						<th width="1%" class=""></th>
 					</tr>
 				</thead>
 			</table>
@@ -41,22 +41,18 @@
 	</div>
 </div>
 
-<pre>
-	<?php print_r($usuario); ?>
-</pre>
-
 <!-- Modal -->
 <form action="<?php echo base_url(); ?>membresias/pagar" method="post">
 	<div class="modal fade" id="confirmarPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-body text-center">
-	        <h4>¿Está seguro de querer confirmar el pago de la cuota?</h4>
+	        <h4 class="title-modal">¿Está seguro de querer confirmar el pago de la cuota?</h4>
 	      </div>
-	      <div class="modal-footer">
+	      <div class="modal-footer mismalinea">
 	      	<input type="hidden" name="f_membresia_id_pagar" id="f_membresia_id_pagar" value="">
-	        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancelar</button>
-	        <button type="submit" class="btn btn-primary btn-sm">Confirmar pago</button>
+	        <button type="button" class="btn btn-default btnBlock" data-dismiss="modal">Cancelar</button>
+	        <button type="submit" class="btn btn-primary btnBlock">Confirmar</button>
 	      </div>
 	    </div>
 	  </div>
@@ -68,12 +64,12 @@
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-body text-center">
-	        <h4>¿Está seguro de querer cancelar la cuota?</h4>
+	        <h4 class="title-modal">¿Está seguro de querer cancelar la cuota?</h4>
 	      </div>
-	      <div class="modal-footer">
+	      <div class="modal-footer mismalinea">
 	      	<input type="hidden" name="f_membresia_id_cancelar" id="f_membresia_id_cancelar" value="">
-	        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancelar</button>
-	        <button type="submit" class="btn btn-danger btn-sm">Confirmar cancelación</button>
+	        <button type="button" class="btn btn-default btnBlock" data-dismiss="modal">Cancelar</button>
+	        <button type="submit" class="btn btn-primary btnBlock">Confirmar</button>
 	      </div>
 	    </div>
 	  </div>
@@ -107,6 +103,7 @@
 
 		// Datatable
 		$('#tabla_cuotas').DataTable({
+			"responsive": true,
 			"searching": false,
 			"paging":   false,
 			"ordering": false,
@@ -117,8 +114,8 @@
 			serverSide: true,
 			columns: [
 				{ data: 'id', 'visible':false, 'orderable': true, 'searchable': false },
-				{ data: 'icono', 'visible':true, 	'orderable': false, 'searchable': false },
-				{ data: 'membresia_nombre',	'visible':true, 	'orderable': false, 'searchable': true, 'render': function(val, type, row) 
+				{ data: 'icono', 'visible':true, 	'orderable': false, 'searchable': false, 'className': 'hidden-xs' },
+				{ data: 'membresia_nombre',	'visible':true, 	'orderable': false, 'searchable': true, 'className': 'hidden-xs', 'render': function(val, type, row) 
 					{
 						return row.membresia_nombre;
 					}
@@ -154,10 +151,10 @@
 
 					}
 				},
-				{ data: 'fecha_inicio_formateado', 'visible':true, 	'orderable': false, 'searchable': false },
+				{ data: 'fecha_inicio_formateado', 'visible':true, 	'orderable': false, 'searchable': false, 'className': 'hidden-xs' },
 				{ data: 'fecha_finalizacion_formateado', 'visible':true, 	'orderable': false, 'searchable': false },
 				{ data: 'fecha_finalizacion', 'visible':false, 	'orderable': false, 'searchable': false },
-				{ data: 'estado',	'visible':true, 	'orderable': false, 'searchable': true, 'render': function(val, type, row) 
+				{ data: 'estado',	'visible':true, 	'orderable': false, 'searchable': true, 'className': 'hidden-xs', 'render': function(val, type, row) 
 					{	
 						if(row.estado == 0){
 			              	return '<span class="label label-default">Cancelado</span>';
@@ -175,7 +172,7 @@
 
 					}
 				},
-				{ data: 'membresia_precio',	'visible':true, 	'orderable': false, 'searchable': true, 'render': function(val, type, row) 
+				{ data: 'membresia_precio',	'visible':true, 	'orderable': false, 'searchable': true, 'className': 'hidden-xs', 'render': function(val, type, row) 
 					{
 						return '$'+row.membresia_precio;
 					}
@@ -195,17 +192,22 @@
 						}
 					}
 				},
-				{ data: 'id', 'visible':true, 'searchable':false, 'orderable': false, 'render': function (val, type, row)
+				{ data: 'id', 'visible':true, 'searchable':false, 'orderable': false, 'className': 'text-right', 'render': function (val, type, row)
           			{
-            			var opciones = '<div class="mismalinea">';
+            			var opciones = '';
 						if(row.estado == 2){
-							opciones += '<button type="button" data-toggle="modal" data-target="#confirmarPago" class="btn btn-sm btn-primary btnPagarCuota" data-cuota="'+row.id+'">Pagar</button> ';
-							opciones += '<button type="button" data-toggle="modal" data-target="#cancelarPago" class="btn btn-sm btn-danger btnCancelarCuota" data-cuota="'+row.id+'">Cancelar</button> ';
+							opciones += '<div class="dropdown">';
+							opciones += '	<button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-cog"></i></button>';
+							opciones += '	<ul class="dropdown-menu dropdown-menu-right">';
+							opciones += '		<li><a href="#" data-toggle="modal" data-target="#confirmarPago" class="btnPagarCuota" data-cuota="'+row.id+'">Pagar</a></li>';
+							opciones += '		<li><a href="#" data-toggle="modal" data-target="#cancelarPago" class="btnCancelarCuota" data-cuota="'+row.id+'">Cancelar</a></li>';
+							opciones += '	</ul>';
+							opciones += '</div>';
 						}else{
 							// opciones += '<button type="button" class="btn btn-sm btn-default" disabled>Pagar</button> ';	
 							// opciones += '<button type="button" class="btn btn-sm btn-default" disabled>Cancelar</button> ';	
 						}
-						opciones += '</div>';
+						// opciones += '</div>';
 
 			            return opciones;
 			    	}

@@ -9,6 +9,7 @@ class Membresias extends CI_Controller {
 		//Carga de los modelos
 		$this->load->model('usuario_model');
 		$this->load->model('membresia_model');
+		$this->load->model('configuracion_model');
 
 		//Configurando el data_header
 		$this->data_header['titulo'] = 'Administración de membresías';
@@ -17,6 +18,8 @@ class Membresias extends CI_Controller {
 		if(!$this->session->userdata('conectado') || $this->session->userdata('usuario_tipo') != 1){
 			redirect(base_url());
 		}
+
+		$this->data_header['configuracion'] = $this->configuracion_model->obtener();
 	}
 
 	public function index()

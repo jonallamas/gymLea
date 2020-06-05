@@ -9,10 +9,11 @@ class Asistencias extends CI_Controller {
 		//Carga de los modelos
 		$this->load->model('asistencia_model');
 		$this->load->model('membresia_model');
+		$this->load->model('configuracion_model');
 
-		if(!$this->session->userdata('conectado') || $this->session->userdata('usuario_tipo') != 1){
-			redirect(base_url());
-		}
+		// if(!$this->session->userdata('conectado') || $this->session->userdata('usuario_tipo') != 1){
+		// 	redirect(base_url());
+		// }
 	}
 
 	public function comprobar()
@@ -22,8 +23,20 @@ class Asistencias extends CI_Controller {
 			exit();
 		}
 
-		$usuario_id = $this->input->post('f_usuario_id');
+		$configuracion = $this->configuracion_model->obtener();
+
+		$hora_ingreso = $this->input->post('f_hora_entrada');
 		$fecha = date('Y-m-d', strtotime($this->input->post('f_fecha')));
+		// Controlar si el horario y la fecha no son inferiores
+		if($hora_ingreso < $configuracion->hora_apertura){
+			$data = array(
+				'error' => 1,
+				'error_texto' => 'Registrar un horario dentro de la franja horaria'
+			);
+
+			echo json_encode($data);
+			exit();
+		}
 		if($fecha < date('Y-m-d')){
 			$data = array(
 				'error' => 1,
@@ -34,10 +47,8 @@ class Asistencias extends CI_Controller {
 			exit();
 		}
 
-		$hora_ingreso = date('G:i:s', strtotime($this->input->post('f_hora_entrada').':00:00'));
 
-		$asistio_hoy = $this->asistencia_model->obtener_asistencia_diaria($usuario_id, $fecha);
-		
+		$usuario_id = $this->input->post('f_usuario_id');
 		$membresias = $this->membresia_model->obtener_membresias_periodo($usuario_id, date('Y'));
 		$estado_membresia = null;
 		foreach ($membresias as $membresia) {
@@ -49,26 +60,29 @@ class Asistencias extends CI_Controller {
 		if($estado_membresia == null){
 			$data = array(
 				'error' => 1,
-				'error_texto' => 'Por favor, seleccione una fecha acorde a su cuota'
+				'error_texto' => 'Seleccione una fecha acorde a su cuota'
 			);
 		}else{
+			$asistio_hoy = $this->asistencia_model->obtener_asistencia_diaria($usuario_id, $fecha);
 			if($asistio_hoy){
 				$data = array(
 					'error' => 1,
 					'error_texto' => 'Solo es permitido una asistencia diaria por usuario'
 				);
 			}else{
+				$configuracion = $this->configuracion_model->obtener();
+
 				$total_disponibles = $this->asistencia_model->obtener_disponibles($fecha, $hora_ingreso);
-				if($total_disponibles->total >= 10){
+				if($total_disponibles->total >= $configuracion->cant_personas_x_hora){
 					$data = array(
 						'error' => 1,
-						'error_texto' => 'Plazas agotadas. Por favor elija otro horario'
+						'error_texto' => 'Plazas agotadas. Elija otro horario'
 					);
 				}else{
 					$data = array(
 						'error' => 0,
 						'error_texto' => null,
-						'total_disponibles' => 10 - $total_disponibles->total
+						'total_disponibles' => $configuracion->cant_personas_x_hora - $total_disponibles->total
 					);
 				}
 			}
@@ -84,8 +98,20 @@ class Asistencias extends CI_Controller {
 			exit();
 		}
 
-		$usuario_id = $this->input->post('f_usuario_id');
+		$configuracion = $this->configuracion_model->obtener();
+
+		$hora_ingreso = $this->input->post('f_hora_entrada');
 		$fecha = date('Y-m-d', strtotime($this->input->post('f_fecha')));
+		// Controlar si el horario y la fecha no son inferiores
+		if($hora_ingreso < $configuracion->hora_apertura){
+			$data = array(
+				'error' => 1,
+				'error_texto' => 'Registrar un horario dentro de la franja horaria'
+			);
+
+			echo json_encode($data);
+			exit();
+		}
 		if($fecha < date('Y-m-d')){
 			$data = array(
 				'error' => 1,
@@ -96,8 +122,7 @@ class Asistencias extends CI_Controller {
 			exit();
 		}
 
-		$hora_ingreso = $this->input->post('f_hora_entrada');
-
+		$usuario_id = $this->input->post('f_usuario_id');
 		$membresias = $this->membresia_model->obtener_membresias_periodo($usuario_id, date('Y'));
 		$estado_membresia = null;
 		foreach ($membresias as $membresia) {
@@ -125,7 +150,7 @@ class Asistencias extends CI_Controller {
 			{
 				$data = array(
 					'error' => 0,
-					'respuesta' => 'Se registró la asistencia para el día '.$this->input->post('f_fecha').' a las '.$this->input->post('f_hora_entrada').':00'.' hs',
+					'respuesta' => 'Se registró la asistencia para el día '.$this->input->post('f_fecha').' a las '.$hora_ingreso.' hs',
 				);
 			}
 			else{
@@ -174,6 +199,47 @@ class Asistencias extends CI_Controller {
 			$data = array(
 				'error' => 1,
 				'error_texto' => 'No fue posible guardar la asistencia'
+			);
+		}
+
+		echo json_encode($data);
+	}
+
+	public function cancelar()
+	{
+		if(!$this->input->post()){
+			redirect(base_url());
+			exit();
+		}
+
+		$asistencia_id = $this->input->post('f_asistencia_id');
+
+		$datos_asistencia = array(
+			'estado' 			=> 0,
+			'actualizado' 		=> date('Y-m-d H:i:s')
+		);
+
+		if($this->asistencia_model->modifica($datos_asistencia, $asistencia_id)){
+			$asistencia_historial = array(
+				'asistencia_id' 			=> $asistencia_id,
+				'estado' 					=> 0,
+				'creado' 					=> date('Y-m-d H:i:s'),
+				'actualizado_usuario_id' 	=> $this->session->userdata('usuario_id'),
+				'actualizado' 				=> date('Y-m-d H:i:s')
+			);
+
+			$this->asistencia_model->alta_historial($asistencia_historial);
+
+			$data = array(
+				'error' => 0,
+				'error_texto' => null,
+				'respuesta' => 'Asistencia cancelada con éxito'
+			);
+		}
+		else{
+			$data = array(
+				'error' => 1,
+				'error_texto' => 'No fue posible cancelar la asistencia'
 			);
 		}
 

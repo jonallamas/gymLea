@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap');
 
 /* -------------------------------- 
 
@@ -7,27 +8,309 @@ Primary style
 -------------------------------- */
 
 html {
-  font-size: 14px;
-  overflow-x: hidden;
+    font-size: 14px;
+    overflow-x: hidden;
 }
 
 body {
-  /*font-size: 1.6rem;*/
-  font-family: 'Montserrat', sans-serif;
-  /*color: #1A1A1A;*/
-  color: #646464 !important;
-  background-color: #f2f2f2;
+    /*font-size: 1.6rem;*/
+    font-family: 'Montserrat', sans-serif;
+    /*color: #1A1A1A;*/
+    color: #646464 !important;
+    background-color: #f2f2f2;
+    padding-top: 65px;
+    padding-bottom: 75px;
 }
 
 a {
-  color: #0573b4;
-  text-decoration: none !important;
+    color: #0573b4;
+    text-decoration: none !important;
 }
 
-h2, h3, h4, h5, h6{
-  margin: 0px;
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    margin: 0px;
 }
 
 ul li{
-  color: #909191;
+    color: #909191;
+}
+
+.mismalinea{
+    white-space: nowrap;
+}
+
+.menuInfoModulo h2{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.menuInfoModulo .menuBotones{
+    padding-top: 20px;
+}
+
+/*
+
+    NAVBAR TOP
+
+ */
+.navbar-default{
+    background-color: #151515;
+    border-color: #151515;
+}
+.navInfoPerfil{
+    padding: 15px 15px;
+}
+    .navInfoPerfil a{
+        color: #fff;
+        font-weight: bold;
+    }
+.imgPerfil{
+    width: 25px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/*
+
+    NAVBAR BOTTOM
+
+ */
+.navFixedBottom{
+    background-color: #151515;
+    height: 55px;
+    z-index: 10;
+}
+.contNav{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    height: 100%; 
+    padding-top: 5px;
+}
+.itemNav {
+    text-align: center;
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.itemNav a{
+    color: #fff;
+    text-decoration: none !important;
+}
+  .itemNav a:hover{
+
+  }
+.itemNav a i{
+    display: block;
+    font-size: 18px;
+}
+.itemNav a span{
+    font-size: 12px;
+    opacity: .7;
+}
+
+.itemNav.active i{
+    color: #F54538;
+}
+
+/*
+
+    DROPDOWN
+
+ */
+
+.dropdown-menu{
+    border-radius: 0px;
+    background-color: #151515;
+}
+.dropdown-menu>li>a{
+    color: #fff;
+    padding: 7px 20px;
+}
+
+/*
+
+    BOTONES
+
+ */
+.btn{
+    border-radius: 0px;
+    /*border: none !important;*/
+}
+.btn-primary{
+    background: linear-gradient(45deg, #F54538, #BD142C);
+    border-color: transparent;
+}
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover{
+    background: linear-gradient(45deg, #F54538, #BD142C);
+}
+.btn-primary:hover{
+    border-color: transparent;
+    background: linear-gradient(45deg, #F54538, #BD142C);
+}
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover{
+    border-color: transparent;
+}
+
+/*
+
+    INFO MÓDULO
+
+ */
+
+.menuBotones{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.menuBotones .btn{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0px 5px;
+    padding: 12px 40px;
+}
+
+.menuBotones .btn-primary i{
+    margin-right: 10px;
+}
+
+/*
+
+    JUMBOTRON
+
+ */
+.jumbotron{
+    margin-bottom: 0px;
+}
+
+/*
+
+    DATATABLE
+
+ */
+div.dataTables_wrapper div.dataTables_paginate ul.pagination a{
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    align-content: center;
+    justify-content: center;
+    display: flex;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background: linear-gradient(45deg, #F54538, #BD142C);
+    border-color: transparent;
+}
+.pagination>li>a, .pagination>li>span{
+    color: #F54538;
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover{
+    color: #F54538;
+}
+
+/*
+
+    INPUTS
+
+ */
+.formGroup .form-control{
+    width: 100%;
+    height: 48px;
+    border-radius: 2px;
+    background: #eee;
+    border-color: transparent;
+    padding-left: 20px;
+    /* margin-bottom: 30px; */
+    font-size: 16px;
+    color: #333;
+    -webkit-transition: all 0.3s;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+.formGroup .form-control:focus {
+    background: #ffffff;
+    color: #151515;
+    /*font-weight: 600;*/
+}
+
+.input-group-addon{
+    border-color: transparent;
+}
+.formGroup{
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.has_error{
+    position: absolute;
+    top: 0;
+    right: 15px;
+    color: red;
+}
+.has_input_error{
+    border-color: red !important;
+}
+
+/*
+
+    BOTONES PANEL AÑADIR
+
+ */
+@media (max-width: 767px) {
+    .panel-footer .btn{
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 12px 40px;
+    }
+}
+
+/*
+
+    DATEPICKER
+
+ */
+.datepicker table tr td.active.active, .datepicker table tr td.active.highlighted.active, .datepicker table tr td.active.highlighted:active, .datepicker table tr td.active:active{
+    background: linear-gradient(45deg, #F54538, #BD142C);
+    border-color: #F54538;
+}
+
+
+/*
+
+    MODAL REGISTRO DE ASISTENCIA
+
+ */
+.modal-title{
+    text-transform: uppercase;
+    font-size: 16px;
+}
+.btnBlock{
+    width: 50%;
+}
+.title-modal{
+    color: #fff;
+}
+
+/*
+
+    MODAL CONFIRMACIÓN
+
+*/
+#modalConfirmacionInfo h2{
+    color: #F54538;
+}
+
+#modalConfirmacionInfo p{
+    color: #fff;
+    margin-top: 10px;
 }

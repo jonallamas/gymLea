@@ -20,6 +20,8 @@ class Configuraciones extends CI_Controller {
 
 	public function index()
 	{
+		$this->data_header['configuracion'] = $this->configuracion_model->obtener();
+
 		$this->load->view('template/panel_v1/header', $this->data_header);
 		$this->load->view('configuraciones/configuraciones');
 		$this->load->view('template/panel_v1/footer');
@@ -33,9 +35,9 @@ class Configuraciones extends CI_Controller {
 		}
 
 		$datos_configuracion = array(
-			'cant_personas_x_hora'	=> 10,
-			'hora_apertura'			=> 9,
-			'hora_cierre'			=> 21,
+			'cant_personas_x_hora'	=> $this->input->post('f_config_cant_personas_hora'),
+			'hora_apertura'			=> $this->input->post('f_config_hora_apertura'),
+			'hora_cierre'			=> $this->input->post('f_config_hora_cierre'),
 			
 			'actualizado_usuario_id' 	=> $this->session->userdata('usuario_id'),
 			'actualizado' 	=> date('Y-m-d H:i:s')

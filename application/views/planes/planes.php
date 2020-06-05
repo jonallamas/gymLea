@@ -2,7 +2,6 @@
 	<div class="row menuInfoModulo">
 		<div class="col-sm-6">
 			<h2><?php echo $titulo; ?></h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore quia repudiandae, est placeat.</p>
 		</div>
 		<div class="col-sm-6 text-right">
 			<div class="menuBotones">
@@ -15,7 +14,7 @@
 
 <br>
 
-<form action="<?php echo base_url(); ?>planes/guardar" method="post">
+<form action="<?php echo base_url(); ?>planes/guardar" method="post" id="f_plan">
 <div class="row" id="moduloCarga" style="display: none;">
 	<div class="col-sm-12">
 		<div class="panel panel-default">
@@ -24,11 +23,11 @@
 			</div>
 			<div class="panel-body">
 				<div class="form-group">
-					<div class="col-sm-6">
+					<div class="col-sm-6 formGroup">
 						<label for="f_plan_nombre">Nombre</label>
 						<input type="text" name="f_plan_nombre" id="f_plan_nombre" class="form-control">
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-3 formGroup">
 						<label for="f_plan_periodo">Periodo</label>
 						<select class="form-control" name="f_plan_periodo" id="f_plan_periodo">
 							<option value="">Seleccione una opción</option>
@@ -37,12 +36,8 @@
 							<option value="6">Semestral</option>
 							<option value="12">Anual</option>
 						</select>
-						<!-- <div class="input-group">
-							<input type="text" name="f_plan_periodo" id="f_plan_periodo" class="form-control">
-							<div class="input-group-addon">Días</div>
-						</div> -->
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-3 formGroup">
 						<label for="f_plan_precio">Precio</label>
 						<div class="input-group">
 							<div class="input-group-addon">$</div>
@@ -63,8 +58,8 @@
 <div class="row" id="moduloInformacion">
 	<div class="col-sm-12">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Lista membresías</h3>
+			<div class="panel-heading" style="min-height: 40px">
+				<h3 class="panel-title hidden-xs">Lista membresías</h3>
 			</div>
 			<table class="table table-striped" id="tabla_planes" width="100%">
 				<thead>
@@ -83,61 +78,4 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-	$(document).ready(function(){
-
-		// Datatable
-		$('#tabla_planes').DataTable({
-			"autoWidth": false,
-			"language": {
-				"url": base_url+"scripts/script_tablas/spanish.json"
-			},
-			serverSide: true,
-			columns: [
-				{ data: 'id', 'visible':false, 'orderable': true, 'searchable': false },
-				{ data: 'icono', 'visible':true, 	'orderable': false, 'searchable': false },
-				{ data: 'nombre',	'visible':true, 	'orderable': true, 'searchable': true, 'render': function(val, type, row) 
-					{
-						return row.nombre;
-					}
-				},
-				{ data: 'periodo',	'visible':true, 	'orderable': true, 'searchable': false, 'render': function(val, type, row) 
-					{
-						switch(row.periodo){
-							case '1':
-								return 'Mensual';
-							case '3':
-								return 'Trimestral';
-							case '6':
-								return 'Semestral';
-							case '12':
-								return 'Anual';
-						}
-					}
-				},
-				{ data: 'precio',	'visible':true, 	'orderable': true, 'searchable': false, 'render': function(val, type, row) 
-					{
-						return '$'+row.precio;
-					}
-				},
-				{ data: 'id', 'visible':true, 'searchable':false, 'orderable': false, 'render': function (val, type, row)
-          			{
-            			var opciones = '<div class="mismalinea">';
-						opciones += '<a href="usuarios/editar/'+row.codigo+'" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-pencil"></i></a> ';
-            			opciones += '</div>';
-
-			            return opciones;
-			    	}
-			    }
-			],
-			order: [
-				[ 0, 'desc' ]
-			],
-			ajax: {
-				url: 'planes/lista',
-				type: 'POST'
-			}
-		});
-	});
-
-</script>
+<?php echo $js_planes; ?>
