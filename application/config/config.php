@@ -27,7 +27,7 @@ if($_SERVER['SERVER_ADDR'] == "::1" || $_SERVER['SERVER_ADDR'] == "127.0.0.1"){
 	$config['base_url'] = 'http://127.0.0.1/proyectosCodeIgniter/gymLea/';
 }
 else{
-	$config['base_url'] = 'http://192.168.1.135/proyectosCodeIgniter/gymLea/';
+	$config['base_url'] = 'http://marcialgym.com/';
 }
 // $config['base_url'] = 'http://127.0.0.1/proyectosCodeIgniter/gymLea/';
 

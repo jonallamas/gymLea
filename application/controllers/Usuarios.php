@@ -189,7 +189,6 @@ class Usuarios extends CI_Controller {
 							
 							'estado'				=> 2,
 							'creado'				=> date('Y-m-d H:i:s'),
-							'actualizado_usuario_id' => $this->session->userdata('usuario_id'),
 							'actualizado' 			=> date('Y-m-d H:i:s')
 						);
 

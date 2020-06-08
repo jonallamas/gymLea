@@ -30,17 +30,7 @@
     <link href="<?php echo base_url(); ?>scripts/script_timepicker/prettify.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet/less" type="text/css" href="<?php echo base_url(); ?>scripts/script_timepicker/timepicker.less" />
 
-    <?php 
-
-    if($_SERVER['SERVER_ADDR'] == "::1" || $_SERVER['SERVER_ADDR'] == "127.0.0.1"){ ?>
-        <script> var base_url = "<?php echo base_url(); ?>" </script>
-    <?php }
-    else{ ?>
-        <script> var base_url = "http://192.168.0.13/proyectosCodeIgniter/gymLea/"; </script>
-    <?php }
-
-    ?>
-    
+    <script> var base_url = "<?php echo base_url(); ?>" </script>    
 
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plantillas/web_1/css/styleModal.css" type="text/css">
 </head>
